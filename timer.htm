@@ -1,0 +1,44 @@
+<html>
+<body>
+   <h1>hello world</h1>
+   <p>Este va a ser mi primer timer</p>
+   <p>usando Js y Jquery </p>
+   <p></p>
+   <div id="t" class="badge">00:00:00</div>
+   <button id="btn">Iniciar</button>
+   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+   <script src="dist/timer.jquery.min.js"></script>
+  <script>
+  (function(){
+      $("#btn").click(function(){
+         switch($(this).html().toLowerCase()){
+            case "iniciar":
+              $("#t").timer({action: 'start', seconds: 0, format: '%H:%M:%S'
+       
+              //,duration: '10s', callback: function() {
+              //   alert('Time up!');
+              //}
+              
+              });
+              $(this).html("Pausa");
+              $("input[name='s']").attr("disabled", "disabled");
+              $("#t").addClass("badge-important");
+            break;
+              
+            case "continuar":
+              $("#t").timer('resume');
+              $(this).html("Pausa")
+              $("#t").addClass("badge-important");
+            break;
+              
+            case "pausa":
+              $("#t").timer('pause');
+              $(this).html("Continuar")
+              $("#t").removeClass("badge-important");
+            break;
+          }
+      });
+  })();
+  </script>
+</body>
+</html>
