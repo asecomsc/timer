@@ -1,11 +1,16 @@
 <html>
+<head>
+  <title>Time Spending</title>
+</head>
 <body>
-   <h1>hello world</h1>
-   <p>Este va a ser mi primer timer</p>
-   <p>usando Js y Jquery </p>
+   <h1>Mi Bitacora diaria</h1>
+   <p>Este va a ser mi primer timer<br>
+   usando Js y Jquery </p>
    <p></p>
+   <p>Aviso&nbsp;<input type="text" id="miTexto" autofocus="" size="1">&nbsp;min</p>
    <div id="t" class="badge">00:00:00</div>
    <button id="btn">Iniciar</button>
+   <button id="btn2">Reiniciar</button>
    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
    <script src="dist/timer.jquery.min.js"></script>
   <script>
@@ -13,15 +18,20 @@
       $("#btn").click(function(){
          switch($(this).html().toLowerCase()){
             case "iniciar":
-              $("#t").timer({action: 'start', seconds: 0, format: '%H:%M:%S'
-       
-              //,duration: '10s', callback: function() {
-              //   alert('Time up!');
-              //}
-              
-              });
+
+              durac = $("#miTexto").val();
+              if(durac == ""){
+                  durac = "0";
+              }
+              miDurac = durac + 'm'; //nunca me hubiera imaginado que se puede usar esta variable en: duration: '2m3s'
+
+              $("#t").timer({action: 'start', seconds: 0, format: '%H:%M:%S', duration: miDurac, 
+                                callback: function() {   
+                                    alert('Timer Finalizado..');
+                                }
+                           });
               $(this).html("Pausa");
-              $("input[name='s']").attr("disabled", "disabled");
+              $("input[name='m']").attr("disabled", "disabled");
               $("#t").addClass("badge-important");
             break;
               
@@ -36,7 +46,13 @@
               $(this).html("Continuar")
               $("#t").removeClass("badge-important");
             break;
-          }
+        }
+      });
+      $("#btn2").click(function(){
+              $("#t").timer('remove');
+              //$("#t").html('00:00:00');
+              $("#miTexto").val("");
+              $("#btn").html("Iniciar");
       });
   })();
   </script>
