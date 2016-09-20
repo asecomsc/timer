@@ -1,6 +1,27 @@
 <html>
 <head>
   <title>Time Spending</title>
+    <style media="screen">
+      #example-timer {
+        height: 150px;
+        margin: 10px left;
+        width: 150px;
+      }
+      code {
+        border-radius: 10px;
+      }
+      button {
+        font-family: arial, sans-serif;
+        font-size: 11pt;
+        color: white;
+        border: none;   
+        margin: 0 1px;  
+        padding: 6px 9px;                   
+      }
+      #btn, #start { background-color: lime; }
+      #btn2, #stop { background-color: DeepSkyBlue; }
+       #pause { background-color: red; }
+   </style>
 </head>
 <body>
    <h1>Mi Bitacora diaria</h1>
@@ -10,9 +31,19 @@
    <p>Aviso&nbsp;<input type="text" id="miTexto" autofocus="" size="1">&nbsp;min</p>
    <div id="t" class="badge">00:00:00</div>
    <button id="btn">Iniciar</button>
-   <button id="btn2">Reiniciar</button>
+   <button id="btn2" >Reiniciar</button>
    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
    <script src="dist/timer.jquery.min.js"></script>
+   <p></p>
+       <div class="example">
+      <div id="example-timer"></div>
+
+      <p>Time Elapsed: <span id="time-elapsed">0</span></p>
+      <button id="start">Iniciar</button>
+      <button id="pause">Pausa</button>
+      <button id="stop">Reiniciar</button>
+    <script src="dist/circletimer.min.js"></script>
+    <link href="dist/circletimer.css" rel="stylesheet"> 
   <script>
   (function(){
       $("#btn").click(function(){
@@ -31,29 +62,51 @@
                                 }
                            });
               $(this).html("Pausa");
-              $("input[name='m']").attr("disabled", "disabled");
+              $(this).css("background-color", "red");
               $("#t").addClass("badge-important");
             break;
               
             case "continuar":
               $("#t").timer('resume');
-              $(this).html("Pausa")
+              $(this).html("Pausa");
+              $(this).css("background-color", "red");
               $("#t").addClass("badge-important");
             break;
               
             case "pausa":
               $("#t").timer('pause');
               $(this).html("Continuar")
+              $(this).css("background-color", "lime");              
               $("#t").removeClass("badge-important");
             break;
         }
       });
       $("#btn2").click(function(){
               $("#t").timer('remove');
-              //$("#t").html('00:00:00');
               $("#miTexto").val("");
               $("#btn").html("Iniciar");
       });
+              $("#example-timer").circletimer({
+          onComplete: function() {
+            alert("Time is up!");
+          },
+        onUpdate: function(elapsed) {
+          $("#time-elapsed").html(Math.round(elapsed/1000));
+        },
+          timeout: 7200000
+        });
+
+        $("#start").on("click", function() {
+          $("#example-timer").circletimer("start");
+        });
+
+        $("#pause").on("click", function() {
+          $("#example-timer").circletimer("pause");
+        });
+
+        $("#stop").on("click", function() {
+          $("#example-timer").circletimer("stop");
+        });
   })();
   </script>
 </body>
